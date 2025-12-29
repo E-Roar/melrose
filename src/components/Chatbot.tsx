@@ -4,12 +4,16 @@ import { X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { useSiteContent } from '@/contexts/SiteContext';
 import chatbotAvatar from '@/assets/chatbot-avatar.png';
 
 export const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { content } = useSiteContent();
+  const { chatbot } = content;
+
   const [messages, setMessages] = useState([
-    { role: 'bot', content: 'Bonjour ! 👋 Je suis l\'assistant virtuel des Écoles Melrose. Comment puis-je vous aider ?' }
+    { role: 'bot', content: chatbot.greeting }
   ]);
   const [input, setInput] = useState('');
 
@@ -17,9 +21,9 @@ export const Chatbot = () => {
     if (!input.trim()) return;
     setMessages([...messages, { role: 'user', content: input }]);
     setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        content: 'Merci pour votre message ! Pour plus d\'informations, veuillez remplir notre formulaire de contact ou nous appeler au +212 6525-61659. 📞' 
+      setMessages(prev => [...prev, {
+        role: 'bot',
+        content: chatbot.fallbackResponse
       }]);
     }, 1000);
     setInput('');
@@ -52,7 +56,7 @@ export const Chatbot = () => {
               <div className="p-4 bg-gradient-to-r from-melrose-purple to-melrose-blue flex items-center gap-3">
                 <img src={chatbotAvatar} alt="Assistant" className="w-12 h-12 rounded-full border-2 border-white/50" />
                 <div className="flex-1 text-white">
-                  <p className="font-bold">Assistant Melrose</p>
+                  <p className="font-bold">{chatbot.name}</p>
                   <p className="text-xs opacity-80">En ligne</p>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="text-white hover:bg-white/20">
@@ -69,11 +73,10 @@ export const Chatbot = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                      msg.role === 'user' 
-                        ? 'bg-melrose-purple text-white rounded-br-none' 
-                        : 'bg-muted rounded-bl-none shadow-neo-sm'
-                    }`}>
+                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.role === 'user'
+                        ? 'bg-melrose-purple text-white rounded-br-none rtl:rounded-bl-none rtl:rounded-br-2xl'
+                        : 'bg-muted rounded-bl-none rtl:rounded-br-none rtl:rounded-bl-2xl shadow-neo-sm'
+                      } font-quicksand rtl:font-tajawal`}>
                       {msg.content}
                     </div>
                   </motion.div>
@@ -87,10 +90,10 @@ export const Chatbot = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Votre message..."
-                  className="flex-1 h-10"
+                  className="flex-1 h-10 font-quicksand rtl:font-tajawal"
                 />
                 <Button variant="gradient" size="icon" onClick={handleSend} className="h-10 w-10">
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4 rtl:rotate-180" />
                 </Button>
               </div>
             </Card>

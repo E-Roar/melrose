@@ -1,64 +1,12 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { MapPin, Navigation, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Casablanca coordinates (approximate location for school)
-const SCHOOL_POSITION: [number, number] = [33.5731, -7.5898];
-
 export const MapSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [MapComponent, setMapComponent] = useState<React.ComponentType<any> | null>(null);
-
-  useEffect(() => {
-    // Dynamically import Leaflet components to avoid SSR issues
-    const loadMap = async () => {
-      const L = await import('leaflet');
-      const { MapContainer, TileLayer, Marker, Popup } = await import('react-leaflet');
-      await import('leaflet/dist/leaflet.css');
-
-      // Fix default marker icon
-      delete (L.Icon.Default.prototype as any)._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-      });
-
-      // Create the map component
-      const Map = () => (
-        <MapContainer
-          center={SCHOOL_POSITION}
-          zoom={14}
-          scrollWheelZoom={false}
-          style={{ height: '100%', width: '100%' }}
-          className="z-0"
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={SCHOOL_POSITION}>
-            <Popup>
-              <div className="text-center p-2">
-                <strong className="text-lg">Les Écoles Melrose</strong>
-                <br />
-                <span className="text-sm text-gray-600">Préscolaire & Primaire</span>
-                <br />
-                <span className="text-sm">Casablanca, Maroc</span>
-              </div>
-            </Popup>
-          </Marker>
-        </MapContainer>
-      );
-
-      setMapComponent(() => Map);
-    };
-
-    loadMap();
-  }, []);
 
   const openGoogleMaps = () => {
     window.open('https://www.google.com/maps/search/Les+Ecoles+Melrose+Casablanca+Maroc', '_blank');
@@ -94,27 +42,25 @@ export const MapSection = () => {
             {/* Map container with neomorphism frame */}
             <div className="relative">
               <div className="aspect-[16/9] md:aspect-[21/9] relative overflow-hidden rounded-t-3xl bg-muted">
-                {MapComponent ? (
-                  <MapComponent />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                        className="w-12 h-12 border-4 border-melrose-purple border-t-transparent rounded-full mx-auto mb-4"
-                      />
-                      <p className="text-muted-foreground">Chargement de la carte...</p>
-                    </div>
-                  </div>
-                )}
+                {/* Google Maps Embed - No external dependencies needed */}
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106376.72691454886!2d-7.6824308!3d33.5731104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca%2C%20Morocco!5e0!3m2!1sen!2s!4v1703000000000!5m2!1sen!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localisation Les Écoles Melrose"
+                  className="absolute inset-0"
+                />
               </div>
 
               {/* Map overlay with CTA */}
               <div className="p-6 bg-background border-t border-border">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <motion.div 
+                    <motion.div
                       whileHover={{ scale: 1.1 }}
                       className="w-12 h-12 rounded-2xl bg-melrose-blue/20 flex items-center justify-center shadow-neo-sm"
                     >
@@ -126,8 +72,8 @@ export const MapSection = () => {
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <Button 
-                      variant="neo" 
+                    <Button
+                      variant="neo"
                       onClick={() => window.open('tel:+212652561659', '_self')}
                     >
                       <Phone className="w-5 h-5" />

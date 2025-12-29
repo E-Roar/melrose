@@ -1,135 +1,98 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Baby, BookOpen, Calculator, Globe, Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Baby, BookOpen, Calculator, Globe, ArrowRight } from 'lucide-react';
+import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
+import { useSiteContent } from '@/contexts/SiteContext';
 
-const programs = [
-  {
-    icon: Baby,
-    title: 'Préscolaire',
-    age: '3 - 5 ans',
-    description: 'Un environnement ludique et sécurisé pour les premiers pas de l\'apprentissage. Éveil, motricité et socialisation.',
-    features: ['Éveil sensoriel', 'Activités manuelles', 'Initiation aux chiffres', 'Jeux éducatifs'],
-    color: 'from-melrose-yellow to-melrose-orange',
-    iconBg: 'bg-melrose-yellow',
-  },
-  {
-    icon: BookOpen,
-    title: 'CP - CE1 - CE2',
-    age: '6 - 8 ans',
-    description: 'Acquisition des fondamentaux en lecture, écriture et mathématiques avec une pédagogie adaptée.',
-    features: ['Lecture et écriture', 'Calcul mental', 'Découverte du monde', 'Expression orale'],
-    color: 'from-melrose-blue to-melrose-purple',
-    iconBg: 'bg-melrose-blue',
-  },
-  {
-    icon: Calculator,
-    title: 'CM1 - CM2',
-    age: '9 - 11 ans',
-    description: 'Approfondissement des connaissances et préparation à l\'entrée au collège avec rigueur.',
-    features: ['Sciences', 'Histoire-Géographie', 'Langues vivantes', 'Méthodologie'],
-    color: 'from-melrose-purple to-melrose-red',
-    iconBg: 'bg-melrose-purple',
-  },
-  {
-    icon: Globe,
-    title: 'Langues',
-    age: 'Tous niveaux',
-    description: 'Apprentissage multilingue : Arabe, Français et Anglais dès le préscolaire.',
-    features: ['Arabe littéraire', 'Français', 'Anglais', 'Communication'],
-    color: 'from-melrose-green to-melrose-blue',
-    iconBg: 'bg-melrose-green',
-  },
-];
+const iconMap: Record<string, any> = {
+  Baby, BookOpen, Calculator, Globe
+};
 
 export const ProgramsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollToSection: smoothScrollTo } = useSmoothScroll();
+  const { content } = useSiteContent();
+  const { programs } = content;
 
   return (
-    <section id="programmes" className="py-20 md:py-32 bg-gradient-to-b from-background via-muted/30 to-background relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-melrose-yellow/10 blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-melrose-green/10 blur-3xl" />
+    <section id="programmes" className="py-20 px-4 relative overflow-hidden">
+      {/* Decorative Blob */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+        <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-melrose-green/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-melrose-orange/5 rounded-full blur-[100px]" />
+      </div>
 
-      <div className="container mx-auto px-4" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold font-display mb-4">
-            Nos <span className="gradient-text">Programmes</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Des programmes pédagogiques adaptés à chaque niveau, conçus pour accompagner 
-            votre enfant de la maternelle jusqu'à l'entrée au collège.
-          </p>
-        </motion.div>
+      <div className="container mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              {programs.title} <span className="gradient-text">{programs.highlight}</span>
+            </h2>
+            <p className="text-lg text-muted-foreground font-quicksand rtl:font-tajawal">
+              {programs.subtitle}
+            </p>
+          </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          {programs.map((program, index) => (
-            <motion.div
-              key={program.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <Card className="h-full group overflow-hidden">
-                <div className={`h-2 bg-gradient-to-r ${program.color}`} />
-                <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: -5 }}
-                      className={`w-14 h-14 rounded-2xl ${program.iconBg} flex items-center justify-center shadow-neo-sm`}
-                    >
-                      <program.icon className="w-7 h-7 text-white" />
-                    </motion.div>
-                    <span className="px-3 py-1 rounded-full text-sm font-medium shadow-neo-sm bg-background">
+        <div className="grid md:grid-cols-2 gap-8">
+          {programs.programs.map((program, index) => {
+            const Icon = iconMap[program.icon] || BookOpen;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="group relative bg-background rounded-[2rem] p-8 shadow-neo border border-white/50 hover:border-melrose-purple/30 transition-all duration-300"
+              >
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-melrose-${program.color}/20 to-transparent rounded-bl-[100px] rounded-tr-[2rem] transition-opacity opacity-50 group-hover:opacity-100`} />
+
+                <div className="relative z-10">
+                  <div className={`w-16 h-16 rounded-2xl bg-melrose-${program.color}/10 flex items-center justify-center mb-6 shadow-sm group-hover:scale-105 transition-transform`}>
+                    <Icon className={`w-8 h-8 text-melrose-${program.color}`} />
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-4">
+                    <h3 className="text-2xl font-bold">{program.title}</h3>
+                    <span className="px-3 py-1 rounded-full bg-muted text-sm font-semibold text-muted-foreground">
                       {program.age}
                     </span>
                   </div>
-                  <CardTitle className="text-xl mt-4">{program.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-6">{program.description}</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {program.features.map((feature) => (
-                      <div
-                        key={feature}
-                        className="flex items-center gap-2 text-sm"
-                      >
-                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${program.color}`} />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-12"
-        >
-          <Button variant="gradient" size="xl" onClick={scrollToContact} className="group">
-            Demander plus d'informations
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </motion.div>
+                  <p className="text-muted-foreground mb-6 font-quicksand rtl:font-tajawal">
+                    {program.description}
+                  </p>
+
+                  <ul className="space-y-3 mb-8">
+                    {program.features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-3 text-sm font-medium">
+                        <div className={`w-6 h-6 rounded-full bg-melrose-${program.color}/20 flex items-center justify-center flex-shrink-0`}>
+                          <Check className={`w-3 h-3 text-melrose-${program.color}`} />
+                        </div>
+                        <span className="font-quicksand rtl:font-tajawal">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    variant="ghost"
+                    className={`p-0 hover:bg-transparent text-melrose-${program.color} hover:text-melrose-${program.color}/80 font-semibold group-hover:translate-x-2 rtl:group-hover:-translate-x-2 transition-all`}
+                    onClick={() => smoothScrollTo('#contact')}
+                  >
+                    {programs.ctaText} <ArrowRight className="ml-2 w-4 h-4 rtl:rotate-180" />
+                  </Button>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

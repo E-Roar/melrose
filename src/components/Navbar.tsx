@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Lock, Languages, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 import logo from '@/assets/logo.png';
-
-const navItems = [
-  { label: 'Accueil', href: '#accueil' },
-  { label: 'À Propos', href: '#apropos' },
-  { label: 'Programmes', href: '#programmes' },
-  { label: 'Galerie', href: '#galerie' },
-  { label: 'Contact', href: '#contact' },
-];
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { scrollToSection: smoothScroll } = useSmoothScroll();
+  const { t, language, toggleLanguage, direction } = useLanguage();
+
+  const navItems = [
+    { label: t.nav.home, href: '#accueil' },
+    { label: t.nav.about, href: '#apropos' },
+    { label: t.nav.programs, href: '#programmes' },
+    { label: t.nav.gallery, href: '#galerie' },
+    { label: t.nav.contact, href: '#contact' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,10 +30,7 @@ export const Navbar = () => {
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    smoothScroll(href);
     setIsMobileMenuOpen(false);
   };
 
@@ -38,11 +40,10 @@ export const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'py-2 bg-background/80 backdrop-blur-xl shadow-neo'
-            : 'py-4 bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+          ? 'py-2 bg-background/80 backdrop-blur-xl shadow-neo'
+          : 'py-4 bg-transparent'
+          }`}
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
           <motion.a
@@ -67,30 +68,59 @@ export const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-background/50 transition-all duration-300 font-medium"
+                className="px-4 py-2 rounded-xl text-foreground/80 hover:text-foreground hover:bg-background/50 transition-all duration-300 font-medium font-quicksand rtl:font-tajawal"
               >
                 {item.label}
               </motion.button>
             ))}
+
+            {/* Language Toggle */}
             <Button
-              variant="gradient"
-              size="sm"
-              onClick={() => scrollToSection('#contact')}
-              className="ml-2"
+              variant="neo"
+              size="icon"
+              onClick={toggleLanguage}
+              className="ml-2 w-10 h-10 rounded-full"
+              title={language === 'fr' ? 'Switch to Arabic' : 'Passer en Français'}
             >
-              Inscription
+              <span className="font-tajawal text-lg font-bold">
+                {language === 'fr' ? 'ع' : 'Fr'}
+              </span>
             </Button>
+
+            {/* Admin Login */}
+            <Link to="/admin/login">
+              <Button
+                variant="neo"
+                size="icon"
+                className="ml-2 w-10 h-10 rounded-full text-melrose-purple hover:text-melrose-purple/80"
+                title={t.nav.admin}
+              >
+                <Lock size={18} />
+              </Button>
+            </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="neo"
-            size="icon"
-            className="lg:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
+          {/* Mobile Menu Button - Left aligned in RTL, Right in LTR */}
+          <div className="flex gap-2 lg:hidden">
+            <Button
+              variant="neo"
+              size="icon"
+              onClick={toggleLanguage}
+              className="w-10 h-10 rounded-full"
+            >
+              <span className="font-tajawal text-lg font-bold">
+                {language === 'fr' ? 'ع' : 'Fr'}
+              </span>
+            </Button>
+
+            <Button
+              variant="neo"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </Button>
+          </div>
         </div>
       </motion.nav>
 
@@ -107,23 +137,26 @@ export const Navbar = () => {
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.href}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: direction === 'rtl' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(item.href)}
-                  className="p-4 rounded-2xl shadow-neo text-lg font-semibold text-foreground hover:shadow-neo-lg transition-all"
+                  className="p-4 rounded-2xl shadow-neo text-lg font-semibold text-foreground hover:shadow-neo-lg transition-all font-quicksand rtl:font-tajawal"
                 >
                   {item.label}
                 </motion.button>
               ))}
-              <Button
-                variant="gradient"
-                size="lg"
-                onClick={() => scrollToSection('#contact')}
-                className="mt-4"
-              >
-                Inscription
-              </Button>
+
+              <Link to="/admin/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button
+                  variant="neo"
+                  size="lg"
+                  className="w-full mt-4 flex items-center gap-2"
+                >
+                  <Lock size={18} />
+                  {t.nav.admin}
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}

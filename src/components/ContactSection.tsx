@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Send, Phone, Mail, MapPin, Clock, MessageCircle, CheckCircle } from 'lucide-react';
+import { useSiteContent } from '@/contexts/SiteContext';
 
 export const ContactSection = () => {
   const ref = useRef(null);
@@ -20,6 +21,9 @@ export const ContactSection = () => {
     childAge: '',
     message: '',
   });
+
+  const { content } = useSiteContent();
+  const { contact } = content;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,21 +48,6 @@ export const ContactSection = () => {
       // Open WhatsApp with the message
       const whatsappNumber = '212652561659';
       window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
-
-      // Create mailto link for email
-      const emailSubject = encodeURIComponent('Nouvelle demande d\'inscription - Les Écoles Melrose');
-      const emailBody = encodeURIComponent(
-        `Nouvelle demande d'inscription\n\n` +
-        `Parent: ${formData.parentName}\n` +
-        `Enfant: ${formData.childName}\n` +
-        `Email: ${formData.email}\n` +
-        `Téléphone: ${formData.phone}\n` +
-        `Âge de l'enfant: ${formData.childAge}\n` +
-        `Message: ${formData.message || 'Pas de message supplémentaire'}`
-      );
-      
-      // Open email client
-      window.location.href = `mailto:lesecolesmelrose@gmail.com?subject=${emailSubject}&body=${emailBody}`;
 
       toast({
         title: "Message envoyé !",
@@ -106,11 +95,10 @@ export const ContactSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold font-display mb-4">
-            <span className="gradient-text">Contactez</span>-Nous
+            <span className="gradient-text">{contact.highlight}</span> {contact.title}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Vous avez des questions ? Vous souhaitez inscrire votre enfant ? 
-            N'hésitez pas à nous contacter, nous serons ravis de vous répondre.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-quicksand rtl:font-tajawal">
+            {contact.subtitle}
           </p>
         </motion.div>
 
@@ -128,7 +116,7 @@ export const ContactSection = () => {
                   <div className="w-10 h-10 rounded-xl bg-melrose-purple/20 flex items-center justify-center">
                     <Send className="w-5 h-5 text-melrose-purple" />
                   </div>
-                  Demande d'inscription
+                  {contact.formTitle}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -142,6 +130,7 @@ export const ContactSection = () => {
                         onChange={handleChange}
                         placeholder="Votre nom complet"
                         required
+                        className="font-quicksand rtl:font-tajawal"
                       />
                     </div>
                     <div>
@@ -152,6 +141,7 @@ export const ContactSection = () => {
                         onChange={handleChange}
                         placeholder="Nom de l'enfant"
                         required
+                        className="font-quicksand rtl:font-tajawal"
                       />
                     </div>
                   </div>
@@ -165,6 +155,7 @@ export const ContactSection = () => {
                         onChange={handleChange}
                         placeholder="votre@email.com"
                         required
+                        className="font-quicksand rtl:font-tajawal"
                       />
                     </div>
                     <div>
@@ -176,6 +167,7 @@ export const ContactSection = () => {
                         onChange={handleChange}
                         placeholder="+212 6XX-XXXXXX"
                         required
+                        className="font-quicksand rtl:font-tajawal"
                       />
                     </div>
                   </div>
@@ -187,6 +179,7 @@ export const ContactSection = () => {
                       onChange={handleChange}
                       placeholder="Ex: 5 ans"
                       required
+                      className="font-quicksand rtl:font-tajawal"
                     />
                   </div>
                   <div>
@@ -197,6 +190,7 @@ export const ContactSection = () => {
                       onChange={handleChange}
                       placeholder="Des informations supplémentaires..."
                       rows={4}
+                      className="font-quicksand rtl:font-tajawal"
                     />
                   </div>
                   <Button
@@ -217,7 +211,7 @@ export const ContactSection = () => {
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
+                        <Send className="w-5 h-5 rtl:rotate-180" />
                         Envoyer la demande
                       </>
                     )}
@@ -265,7 +259,7 @@ export const ContactSection = () => {
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold font-display text-lg">Contactez-nous sur WhatsApp</h3>
+                  <h3 className="font-bold font-display text-lg">{contact.whatsappCta}</h3>
                   <p className="text-sm text-muted-foreground">Réponse rapide garantie !</p>
                 </div>
               </div>
@@ -282,11 +276,7 @@ export const ContactSection = () => {
 
             {/* Features */}
             <div className="space-y-3">
-              {[
-                'Réponse sous 24h garantie',
-                'Visite de l\'école sur rendez-vous',
-                'Accompagnement personnalisé',
-              ].map((feature, index) => (
+              {contact.features.map((feature, index) => (
                 <motion.div
                   key={feature}
                   initial={{ opacity: 0, x: 20 }}
@@ -295,7 +285,7 @@ export const ContactSection = () => {
                   className="flex items-center gap-3 p-3 rounded-xl shadow-neo-sm bg-background"
                 >
                   <CheckCircle className="w-5 h-5 text-melrose-green" />
-                  <span className="text-sm font-medium">{feature}</span>
+                  <span className="text-sm font-medium font-quicksand rtl:font-tajawal">{feature}</span>
                 </motion.div>
               ))}
             </div>
