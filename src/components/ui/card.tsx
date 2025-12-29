@@ -2,9 +2,31 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("rounded-lg border bg-card text-card-foreground shadow-sm", className)} {...props} />
-));
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: 'neo' | 'glass' | 'neoPressed';
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, variant = 'neo', ...props }, ref) => {
+    const variants = {
+      neo: 'bg-card shadow-neo hover:shadow-neo-lg transition-all duration-300',
+      glass: 'glass-strong border border-white/30 backdrop-blur-xl',
+      neoPressed: 'bg-card shadow-neo-inset',
+    };
+    
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "rounded-3xl text-card-foreground",
+          variants[variant],
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -16,7 +38,7 @@ CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn("text-2xl font-semibold leading-none tracking-tight", className)} {...props} />
+    <h3 ref={ref} className={cn("text-2xl font-bold leading-none tracking-tight font-display", className)} {...props} />
   ),
 );
 CardTitle.displayName = "CardTitle";
