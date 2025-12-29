@@ -7,20 +7,24 @@ import { ContactSection } from '@/components/ContactSection';
 import { MapSection } from '@/components/MapSection';
 import { Chatbot } from '@/components/Chatbot';
 import { Footer } from '@/components/Footer';
+import { Preloader } from '@/components/Preloader';
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
-      <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <ProgramsSection />
-      <GallerySection />
-      <ContactSection />
-      <MapSection />
-      <Footer />
-      <Chatbot />
-    </main>
+    <>
+      <Preloader />
+      <main className="min-h-screen">
+        <Navbar />
+        <HeroSection />
+        <AboutSection />
+        <ProgramsSection />
+        <GallerySection />
+        <ContactSection />
+        <MapSection />
+        <Footer />
+        <Chatbot />
+      </main>
+    </>
   );
 };
 

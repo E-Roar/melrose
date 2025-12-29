@@ -55,7 +55,7 @@ export const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-3"
           >
-            <img src={logo} alt="Les Ecoles Melrose" className="h-12 md:h-16 w-auto" />
+            <img src={logo} alt="Les Ecoles Melrose" className="h-16 md:h-24 w-auto" />
           </motion.a>
 
           {/* Desktop Navigation */}
