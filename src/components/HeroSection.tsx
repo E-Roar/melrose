@@ -93,6 +93,8 @@ export const HeroSection = () => {
               src={heroImage}
               alt="Happy Students"
               className="relative z-10 w-full max-w-[600px] object-contain drop-shadow-2xl animate-float"
+              loading="eager"
+              fetchPriority="high"
               transition={{
                 repeat: Infinity,
                 repeatType: "reverse",
