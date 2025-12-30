@@ -75,9 +75,9 @@ export const ContactSection = () => {
   };
 
   const contactInfo = [
-    { icon: Phone, label: 'Téléphone', value: '+212 6525-61659', href: 'tel:+212652561659' },
-    { icon: Mail, label: 'Email', value: 'lesecolesmelrose@gmail.com', href: 'mailto:lesecolesmelrose@gmail.com' },
-    { icon: MapPin, label: 'Adresse', value: 'Casablanca, Maroc', href: '#localisation' },
+    { icon: Phone, label: 'Téléphone', value: content.siteInfo.phone, href: `tel:${content.siteInfo.phone.replace(/\s/g, '')}` },
+    { icon: Mail, label: 'Email', value: content.siteInfo.email, href: `mailto:${content.siteInfo.email}` },
+    { icon: MapPin, label: 'Adresse', value: `${content.siteInfo.city}, ${content.siteInfo.country}`, href: '#localisation' },
     { icon: Clock, label: 'Horaires', value: 'Lun-Ven: 8h-17h', href: null },
   ];
 

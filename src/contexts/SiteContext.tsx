@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useLanguage, Language } from './LanguageContext';
+import { useLanguage } from './LanguageContext';
+import { Language } from '@/lib/translations';
 
 // Types for all site content
 export interface SiteInfo {
@@ -113,8 +114,8 @@ const frData: SiteData = {
         email: 'lesecolesmelrose@gmail.com',
         phone: '+212 6525-61659',
         whatsapp: '212652561659',
-        address: '',
-        city: 'Casablanca',
+        address: '169, Wassat Al Jadida, Hay Al Matar',
+        city: 'El Jadida',
         country: 'Maroc',
     },
     hero: {
@@ -197,8 +198,8 @@ const arData: SiteData = {
         email: 'lesecolesmelrose@gmail.com',
         phone: '+212 6525-61659',
         whatsapp: '212652561659',
-        address: '',
-        city: 'الدار البيضاء',
+        address: '169, Wassat Al Jadida, Hay Al Matar',
+        city: 'الجديدة',
         country: 'المغرب',
     },
     hero: {

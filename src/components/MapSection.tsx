@@ -3,13 +3,28 @@ import { motion, useInView } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { MapPin, Navigation, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import logo from '@/assets/logo.png';
+
+// Custom Icon
+const customIcon = new L.Icon({
+  iconUrl: logo,
+  iconSize: [50, 50],
+  iconAnchor: [25, 25],
+  popupAnchor: [0, -25],
+  className: 'rounded-full border-2 border-white shadow-lg bg-white bg-contain'
+});
 
 export const MapSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
+  const position: [number, number] = [33.224903383626256, -8.528850365969577];
+
   const openGoogleMaps = () => {
-    window.open('https://www.google.com/maps/search/Les+Ecoles+Melrose+Casablanca+Maroc', '_blank');
+    window.open(`https://www.google.com/maps/search/?api=1&query=${position[0]},${position[1]}`, '_blank');
   };
 
   return (
@@ -41,23 +56,26 @@ export const MapSection = () => {
           <Card className="overflow-hidden">
             {/* Map container with neomorphism frame */}
             <div className="relative">
-              <div className="aspect-[16/9] md:aspect-[21/9] relative overflow-hidden rounded-t-3xl bg-muted">
-                {/* Google Maps Embed - No external dependencies needed */}
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106376.72691454886!2d-7.6824308!3d33.5731104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca%2C%20Morocco!5e0!3m2!1sen!2s!4v1703000000000!5m2!1sen!2s"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Localisation Les Écoles Melrose"
-                  className="absolute inset-0"
-                />
+              <div className="aspect-[16/9] md:aspect-[21/9] relative overflow-hidden rounded-t-3xl bg-muted z-0">
+                <MapContainer center={position} zoom={15} scrollWheelZoom={false} className="w-full h-full">
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={position} icon={customIcon}>
+                    <Popup>
+                      <div className="text-center">
+                        <img src={logo} alt="Melrose" className="w-12 h-12 mx-auto mb-2" />
+                        <span className="font-bold">Les Écoles Melrose</span><br />
+                        169, Wassat Al Jadida, Hay Al Matar
+                      </div>
+                    </Popup>
+                  </Marker>
+                </MapContainer>
               </div>
 
               {/* Map overlay with CTA */}
-              <div className="p-6 bg-background border-t border-border">
+              <div className="p-6 bg-background border-t border-border relative z-10">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <motion.div
@@ -67,7 +85,7 @@ export const MapSection = () => {
                       <MapPin className="w-6 h-6 text-melrose-blue" />
                     </motion.div>
                     <div>
-                      <p className="font-bold font-display">Casablanca, Maroc</p>
+                      <p className="font-bold font-display">El Jadida, Maroc</p>
                       <p className="text-sm text-muted-foreground">Facilement accessible</p>
                     </div>
                   </div>
