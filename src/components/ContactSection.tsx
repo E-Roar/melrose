@@ -34,21 +34,24 @@ export const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      // Create WhatsApp message
-      const whatsappMessage = encodeURIComponent(
-        `\uD83D\uDC4B *Bonjour Les Écoles Melrose !*\n\n` +
-        `\uD83D\uDCC4 *Je souhaite faire une demande d'inscription :*\n\n` +
-        `\uD83D\uDC64 *Parent :* ${formData.parentName}\n` +
-        `\uD83D\uDC76 *Enfant :* ${formData.childName}\n` +
-        `\uD83C\uDF82 *Âge :* ${formData.childAge}\n\n` +
-        `\uD83D\uDCDE *Tél :* ${formData.phone}\n` +
-        `\uD83D\uDCE7 *Email :* ${formData.email}\n\n` +
-        `\uD83D\uDCAC *Message :* ${formData.message || 'Aucun message supplémentaire'}`
-      );
+      // Create WhatsApp message without manual encoding
+      const text =
+        `👋 *Bonjour Les Écoles Melrose !*\n\n` +
+        `📄 *Je souhaite faire une demande d'inscription :*\n\n` +
+        `👤 *Parent :* ${formData.parentName}\n` +
+        `👶 *Enfant :* ${formData.childName}\n` +
+        `🎂 *Âge :* ${formData.childAge}\n\n` +
+        `📞 *Tél :* ${formData.phone}\n` +
+        `📧 *Email :* ${formData.email}\n\n` +
+        `💬 *Message :* ${formData.message || 'Aucun message supplémentaire'}`;
 
-      // Open WhatsApp with the message
-      const whatsappNumber = '212652561659';
-      window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
+      // Use URLSearchParams for reliable encoding
+      const params = new URLSearchParams();
+      params.set('phone', '212652561659');
+      params.set('text', text);
+
+      // Open WhatsApp with the message using the standard API endpoint
+      window.open(`https://api.whatsapp.com/send?${params.toString()}`, '_blank');
 
       toast({
         title: "Message envoyé !",
@@ -268,7 +271,11 @@ export const ContactSection = () => {
                 variant="melroseGreen"
                 size="lg"
                 className="w-full mt-4"
-                onClick={() => window.open('https://wa.me/212652561659', '_blank')}
+                onClick={() => {
+                  const text = `👋 *Bonjour Les Écoles Melrose !* \uD83C\uDFEB\nJe souhaite avoir plus d'informations sur votre établissement.`;
+                  const params = new URLSearchParams({ phone: '212652561659', text });
+                  window.open(`https://api.whatsapp.com/send?${params.toString()}`, '_blank');
+                }}
               >
                 <MessageCircle className="w-5 h-5" />
                 Ouvrir WhatsApp
