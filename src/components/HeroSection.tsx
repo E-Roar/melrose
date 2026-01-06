@@ -79,7 +79,6 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Right Content - 3D Logo Container */}
             <div className="relative lg:h-[600px] flex items-center justify-center perspective-1000">
 
               <motion.div
@@ -88,11 +87,11 @@ const HeroSection = () => {
                   rotateY,
                   transformStyle: 'preserve-3d'
                 }}
-                className="relative w-[500px] h-[500px] flex items-center justify-center"
+                className="relative w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] flex items-center justify-center"
               >
                 {/* Layer 1: Frosted Glass Circle Background */}
                 <div
-                  className="absolute w-[400px] h-[400px] rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
+                  className="absolute w-[240px] h-[240px] sm:w-[400px] sm:h-[400px] rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
                   style={{ transform: 'translateZ(30px)' }}
                 />
 
@@ -100,7 +99,7 @@ const HeroSection = () => {
                 <img
                   src={logoWeb}
                   alt="Melrose Schools Logo"
-                  className="relative z-10 w-[60%] max-w-[350px] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
+                  className="relative z-10 w-[60%] max-w-[210px] sm:max-w-[350px] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.4)]"
                   style={{ transform: 'translateZ(80px)' }}
                 />
 

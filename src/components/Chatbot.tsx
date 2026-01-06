@@ -24,7 +24,7 @@ export const Chatbot = () => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   const { content } = useSiteContent();
   const { language } = useLanguage();
   const { chatbot } = content;
@@ -117,13 +117,13 @@ export const Chatbot = () => {
       ]);
     } catch (error: any) {
       console.error('Chatbot error:', error);
-      
+
       let errorMessage = chatbot.fallbackResponse;
       let isError = true;
 
       // Handle specific error types
       if (error?.status === 429) {
-        errorMessage = language === 'fr' 
+        errorMessage = language === 'fr'
           ? "Désolé, trop de requêtes. Veuillez réessayer dans quelques secondes."
           : "عذراً، هناك طلبات كثيرة جداً. يرجى المحاولة مرة أخرى بعد بضع ثوانٍ.";
         isError = false; // Temporary error, not permanent
@@ -148,8 +148,8 @@ export const Chatbot = () => {
           : "خطأ في الإعدادات. يرجى التواصل مع المسؤول.";
       }
 
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
+      setMessages(prev => [...prev, {
+        role: 'bot',
         content: errorMessage,
       }]);
 
@@ -171,22 +171,22 @@ export const Chatbot = () => {
     {
       icon: NavIcon,
       label: language === 'fr' ? 'Découvrir nos programmes' : 'اكتشف برامجنا',
-      prompt: language === 'fr' 
-        ? 'Quels programmes proposez-vous ?' 
+      prompt: language === 'fr'
+        ? 'Quels programmes proposez-vous ?'
         : 'ما هي البرامج التي تقدمونها؟',
     },
     {
       icon: Phone,
       label: language === 'fr' ? 'Contacter l\'école' : 'اتصل بالمدرسة',
-      prompt: language === 'fr' 
-        ? 'Je veux contacter l\'école pour plus d\'informations' 
+      prompt: language === 'fr'
+        ? 'Je veux contacter l\'école pour plus d\'informations'
         : 'أريد التواصل مع المدرسة للحصول على مزيد من المعلومات',
     },
     {
       icon: Mail,
       label: language === 'fr' ? 'Inscrire mon enfant' : 'سجل طفلي',
-      prompt: language === 'fr' 
-        ? 'Comment puis-je inscrire mon enfant ?' 
+      prompt: language === 'fr'
+        ? 'Comment puis-je inscrire mon enfant ?'
         : 'كيف يمكنني تسجيل طفلي؟',
     },
   ];
@@ -199,12 +199,12 @@ export const Chatbot = () => {
         animate={{ scale: 1 }}
         transition={{ delay: 1, type: 'spring' }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 md:w-20 md:h-20 rounded-full shadow-neo-lg bg-gradient-to-br from-melrose-purple to-melrose-blue p-1 hover:shadow-glow-rainbow transition-all"
+        className="fixed bottom-6 right-6 z-[100] w-16 h-16 md:w-20 md:h-20 rounded-full shadow-neo-lg bg-gradient-to-br from-melrose-purple to-melrose-blue p-1 hover:shadow-glow-rainbow transition-all"
         aria-label="Open chat"
       >
-        <img 
-          src={chatbotAvatar} 
-          alt="Assistant" 
+        <img
+          src={chatbotAvatar}
+          alt="Assistant"
           className="w-full h-full rounded-full object-cover"
           loading="lazy"
         />
@@ -217,15 +217,15 @@ export const Chatbot = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-24 right-6 z-50 w-[350px] max-w-[calc(100vw-2rem)]"
+            className="fixed bottom-24 right-6 z-[100] w-[350px] max-w-[calc(100vw-2rem)]"
           >
             <Card variant="glass" className="overflow-hidden glow-rainbow">
               {/* Header */}
               <div className="p-4 bg-gradient-to-r from-melrose-purple to-melrose-blue flex items-center gap-3">
                 <div className="relative">
-                  <img 
-                    src={chatbotAvatar} 
-                    alt="Assistant" 
+                  <img
+                    src={chatbotAvatar}
+                    alt="Assistant"
                     className="w-12 h-12 rounded-full border-2 border-white/50"
                     loading="lazy"
                   />
@@ -238,10 +238,10 @@ export const Chatbot = () => {
                     {language === 'fr' ? 'En ligne' : 'متصل'}
                   </p>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  onClick={() => setIsOpen(false)} 
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen(false)}
                   className="text-white hover:bg-white/20"
                   aria-label="Close chat"
                 >
@@ -281,16 +281,15 @@ export const Chatbot = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
-                      msg.role === 'user'
-                        ? 'bg-melrose-purple text-white rounded-br-none rtl:rounded-bl-none rtl:rounded-br-2xl'
-                        : 'bg-muted rounded-bl-none rtl:rounded-br-none rtl:rounded-bl-2xl shadow-neo-sm'
-                    } font-quicksand rtl:font-tajawal`}>
+                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${msg.role === 'user'
+                      ? 'bg-melrose-purple text-white rounded-br-none rtl:rounded-bl-none rtl:rounded-br-2xl'
+                      : 'bg-muted rounded-bl-none rtl:rounded-br-none rtl:rounded-bl-2xl shadow-neo-sm'
+                      } font-quicksand rtl:font-tajawal`}>
                       {msg.toolCall && (
                         <div className="flex items-center gap-1 text-xs opacity-70 mb-1">
                           <Sparkles className="w-3 h-3 text-melrose-purple" />
                           <span>
-                            {msg.toolCall === 'scrollToSection' 
+                            {msg.toolCall === 'scrollToSection'
                               ? (language === 'fr' ? 'Navigation' : 'تنقل')
                               : 'Action'
                             }

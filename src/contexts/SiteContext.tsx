@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useLanguage } from './LanguageContext';
 import { Language } from '@/lib/translations';
+import gallery1 from '@/assets/gallery-1-desktop.webp';
+import gallery2 from '@/assets/gallery-2-desktop.webp';
+import gallery3 from '@/assets/gallery-3-desktop.webp';
+import gallery4 from '@/assets/gallery-4-desktop.webp';
+import gallery5 from '@/assets/gallery-5-desktop.webp';
+import gallery6 from '@/assets/gallery-6-desktop.webp';
+import logo from '@/assets/logo.png';
+import chatbotAvatar from '@/assets/chatbot-avatar-desktop.webp';
 
 // Types for all site content
 export interface SiteInfo {
@@ -110,7 +118,7 @@ const frData: SiteData = {
     siteInfo: {
         name: 'Les Écoles Melrose',
         tagline: 'Préscolaire & Primaire',
-        logo: '/src/assets/logo.png',
+        logo: logo,
         email: 'lesecolesmelrose@gmail.com',
         phone: '+212 6525-61659',
         whatsapp: '212652561659',
@@ -163,12 +171,12 @@ const frData: SiteData = {
         highlight: 'Galerie',
         subtitle: "Découvrez nos espaces d'apprentissage modernes et colorés.",
         images: [
-            { id: '1', src: '/src/assets/gallery-1.jpg', title: 'Salle de classe', description: 'Environnement coloré et stimulant' },
-            { id: '2', src: '/src/assets/gallery-2.jpg', title: 'Aire de jeux', description: 'Activités en plein air' },
-            { id: '3', src: '/src/assets/gallery-3.jpg', title: 'Bibliothèque', description: 'Coin lecture confortable' },
-            { id: '4', src: '/src/assets/gallery-4.jpg', title: 'Atelier créatif', description: 'Arts plastiques et créativité' },
-            { id: '5', src: '/src/assets/gallery-5.jpg', title: 'Salle de musique', description: 'Éveil musical et expression' },
-            { id: '6', src: '/src/assets/gallery-6.jpg', title: 'Laboratoire', description: 'Découverte scientifique' },
+            { id: '1', src: gallery1, title: 'Salle de classe', description: 'Environnement coloré et stimulant' },
+            { id: '2', src: gallery2, title: 'Aire de jeux', description: 'Activités en plein air' },
+            { id: '3', src: gallery3, title: 'Bibliothèque', description: 'Coin lecture confortable' },
+            { id: '4', src: gallery4, title: 'Atelier créatif', description: 'Arts plastiques et créativité' },
+            { id: '5', src: gallery5, title: 'Salle de musique', description: 'Éveil musical et expression' },
+            { id: '6', src: gallery6, title: 'Laboratoire', description: 'Découverte scientifique' },
         ],
     },
     contact: {
@@ -181,7 +189,7 @@ const frData: SiteData = {
     },
     chatbot: {
         name: 'Assistant Melrose',
-        avatar: '/src/assets/chatbot-avatar.png',
+        avatar: chatbotAvatar,
         greeting: "Bonjour ! 👋 Je suis l'assistant virtuel des Écoles Melrose.\n\nJe peux vous aider à naviguer sur le site, découvrir nos programmes, et répondre à vos questions sur l'école.\n\nComment puis-je vous aider aujourd'hui ?",
         systemPrompt: "Tu es l'assistant de navigation des Écoles Melrose, une école préscolaire et primaire.",
         ragFiles: [],
@@ -194,7 +202,7 @@ const arData: SiteData = {
     siteInfo: {
         name: 'مدارس ميلروز',
         tagline: 'روض وحضانة وابتدائي',
-        logo: '/src/assets/logo.png',
+        logo: logo,
         email: 'lesecolesmelrose@gmail.com',
         phone: '+212 6525-61659',
         whatsapp: '212652561659',
@@ -258,7 +266,7 @@ const arData: SiteData = {
     },
     chatbot: {
         name: 'مساعد ميلروز',
-        avatar: '/src/assets/chatbot-avatar.png',
+        avatar: chatbotAvatar,
         greeting: "مرحباً! 👋 أنا المساعد الذكي لمدارس ميلروز.\n\nأستطيع مساعدتك في التنقل في الموقع، اكتشاف برامجنا، والإجابة على أسئلتك حول المدرسة.\n\nكيف يمكنني مساعدتك اليوم؟",
         systemPrompt: "أنت مساعد التنقل لمدارس ميلروز، مدرسة روض وابتدائي.",
         ragFiles: [],
