@@ -36,14 +36,14 @@ export const ContactSection = () => {
     try {
       // Create WhatsApp message
       const whatsappMessage = encodeURIComponent(
-        `👋 *Bonjour Les Écoles Melrose !*\n\n` +
-        `📄 *Je souhaite faire une demande d'inscription :*\n\n` +
-        `👤 *Parent :* ${formData.parentName}\n` +
-        `👶 *Enfant :* ${formData.childName}\n` +
-        `🎂 *Âge :* ${formData.childAge}\n\n` +
-        `📞 *Tél :* ${formData.phone}\n` +
-        `📧 *Email :* ${formData.email}\n\n` +
-        `💬 *Message :* ${formData.message || 'Aucun message supplémentaire'}`
+        `\uD83D\uDC4B *Bonjour Les Écoles Melrose !*\n\n` +
+        `\uD83D\uDCC4 *Je souhaite faire une demande d'inscription :*\n\n` +
+        `\uD83D\uDC64 *Parent :* ${formData.parentName}\n` +
+        `\uD83D\uDC76 *Enfant :* ${formData.childName}\n` +
+        `\uD83C\uDF82 *Âge :* ${formData.childAge}\n\n` +
+        `\uD83D\uDCDE *Tél :* ${formData.phone}\n` +
+        `\uD83D\uDCE7 *Email :* ${formData.email}\n\n` +
+        `\uD83D\uDCAC *Message :* ${formData.message || 'Aucun message supplémentaire'}`
       );
 
       // Open WhatsApp with the message
