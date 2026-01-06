@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
 import { useSiteContent } from '@/contexts/SiteContext';
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Baby, BookOpen, Calculator, Globe
 };
 

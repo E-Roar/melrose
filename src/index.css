@@ -152,6 +152,59 @@
   [dir="rtl"] h6 {
     font-family: 'Tajawal', sans-serif;
   }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Mobile specific - reduce animation complexity */
+  @media (max-width: 768px) {
+    .animate-float,
+    .animate-pulse-slow,
+    .animate-glow,
+    .glow-purple,
+    .glow-blue,
+    .glow-rainbow {
+      animation: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Reduce blur effects on mobile */
+    .glass,
+    .glass-strong {
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+    }
+
+    /* Simplify shadows on mobile */
+    .shadow-neo-lg {
+      box-shadow:
+        -4px -4px 12px 0px hsl(0 0% 100% / 0.7),
+        4px 4px 12px 0px hsl(220 20% 75% / 0.5) !important;
+    }
+  }
+
+  /* Touch-friendly tap targets */
+  @media (hover: none) and (pointer: coarse) {
+    button, a, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Remove hover effects on touch devices */
+    .hover\:scale-105:hover,
+    .group-hover\:scale-110:hover,
+    .hover\:shadow-neo-lg:hover {
+      transform: none !important;
+    }
+  }
 }
 
 @layer components {

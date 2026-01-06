@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Contexts
@@ -25,50 +24,46 @@ import GallerySettings from "./pages/admin/GallerySettings";
 import ContactSettings from "./pages/admin/ContactSettings";
 import ChatbotSettings from "./pages/admin/ChatbotSettings";
 
-const queryClient = new QueryClient();
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <SiteProvider>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
+  <LanguageProvider>
+    <SiteProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Index />} />
 
-                {/* Admin routes */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route
-                  path="/admin"
-                  element={
-                    <ProtectedRoute>
-                      <AdminLayout />
-                    </ProtectedRoute>
-                  }
-                >
-                  <Route index element={<Dashboard />} />
-                  <Route path="site" element={<SiteSettings />} />
-                  <Route path="hero" element={<HeroSettings />} />
-                  <Route path="about" element={<AboutSettings />} />
-                  <Route path="programs" element={<ProgramsSettings />} />
-                  <Route path="gallery" element={<GallerySettings />} />
-                  <Route path="contact" element={<ContactSettings />} />
-                  <Route path="chatbot" element={<ChatbotSettings />} />
-                </Route>
+              {/* Admin routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Dashboard />} />
+                <Route path="site" element={<SiteSettings />} />
+                <Route path="hero" element={<HeroSettings />} />
+                <Route path="about" element={<AboutSettings />} />
+                <Route path="programs" element={<ProgramsSettings />} />
+                <Route path="gallery" element={<GallerySettings />} />
+                <Route path="contact" element={<ContactSettings />} />
+                <Route path="chatbot" element={<ChatbotSettings />} />
+              </Route>
 
-                {/* Catch-all */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </AuthProvider>
-      </SiteProvider>
-    </LanguageProvider>
-  </QueryClientProvider>
+              {/* Catch-all */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </SiteProvider>
+  </LanguageProvider>
 );
 
 export default App;

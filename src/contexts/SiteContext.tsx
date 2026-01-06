@@ -182,10 +182,10 @@ const frData: SiteData = {
     chatbot: {
         name: 'Assistant Melrose',
         avatar: '/src/assets/chatbot-avatar.png',
-        greeting: "Bonjour ! 👋 Je suis l'assistant virtuel des Écoles Melrose. Comment puis-je vous aider ?",
-        systemPrompt: "Tu es l'assistant virtuel des Écoles Melrose, une école préscolaire et primaire à Casablanca. Réponds en français de manière amicale et professionnelle.",
+        greeting: "Bonjour ! 👋 Je suis l'assistant virtuel des Écoles Melrose.\n\nJe peux vous aider à naviguer sur le site, découvrir nos programmes, et répondre à vos questions sur l'école.\n\nComment puis-je vous aider aujourd'hui ?",
+        systemPrompt: "Tu es l'assistant de navigation des Écoles Melrose, une école préscolaire et primaire.",
         ragFiles: [],
-        fallbackResponse: "Merci pour votre message ! Pour plus d'informations, veuillez remplir notre formulaire de contact ou nous appeler. 📞",
+        fallbackResponse: "Désolé, je n'ai pas pu répondre à votre question. Vous pouvez me contacter directement via le formulaire de contact ou sur WhatsApp. 📞",
     },
 };
 
@@ -259,10 +259,10 @@ const arData: SiteData = {
     chatbot: {
         name: 'مساعد ميلروز',
         avatar: '/src/assets/chatbot-avatar.png',
-        greeting: "مرحباً! 👋 أنا المساعد الذكي لمدارس ميلروز. كيف يمكنني مساعدتك؟",
-        systemPrompt: "أنت المساعد الافتراضي لمدارس ميلروز، مدرسة أولية وابتدائية في الدار البيضاء. أجب باللغة العربية بطريقة ودية ومهنية.",
+        greeting: "مرحباً! 👋 أنا المساعد الذكي لمدارس ميلروز.\n\nأستطيع مساعدتك في التنقل في الموقع، اكتشاف برامجنا، والإجابة على أسئلتك حول المدرسة.\n\nكيف يمكنني مساعدتك اليوم؟",
+        systemPrompt: "أنت مساعد التنقل لمدارس ميلروز، مدرسة روض وابتدائي.",
         ragFiles: [],
-        fallbackResponse: "شكراً لرسالتك! للمزيد من المعلومات يرجى ملء استمارة التواصل أو الاتصال بنا. 📞",
+        fallbackResponse: "عذراً، لم أتمكن من الإجابة على سؤالك. يمكنك التواصل معنا مباشرة عبر استمارة التواصل أو على واتساب. 📞",
     },
 };
 

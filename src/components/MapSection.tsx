@@ -56,8 +56,16 @@ export const MapSection = () => {
           <Card className="overflow-hidden">
             {/* Map container with neomorphism frame */}
             <div className="relative">
-              <div className="aspect-[16/9] md:aspect-[21/9] relative overflow-hidden rounded-t-3xl bg-muted z-0">
-                <MapContainer center={position} zoom={15} scrollWheelZoom={false} className="w-full h-full">
+               <div className="aspect-[16/9] md:aspect-[21/9] relative overflow-hidden rounded-t-3xl bg-muted z-0">
+                <MapContainer 
+                  center={position} 
+                  zoom={15} 
+                  scrollWheelZoom={false}
+                  touchZoom={false}
+                  doubleClickZoom={false}
+                  dragging={false}
+                  className="w-full h-full"
+                >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

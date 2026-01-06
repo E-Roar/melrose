@@ -72,7 +72,7 @@ export const GallerySection = () => {
               slideShadows: false,
             }}
             autoplay={{
-              delay: 3000,
+              delay: 4000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
@@ -86,20 +86,28 @@ export const GallerySection = () => {
               nextEl: navigationNextRef.current,
             }}
             onBeforeInit={(swiper) => {
-              // @ts-ignore
+              // @ts-expect-error - Swiper ref typing issue
               swiper.params.navigation.prevEl = navigationPrevRef.current;
-              // @ts-ignore
+              // @ts-expect-error - Swiper ref typing issue
               swiper.params.navigation.nextEl = navigationNextRef.current;
             }}
             breakpoints={{
+              320: {
+                slidesPerView: 1.1,
+                spaceBetween: 10,
+              },
               640: {
-                slidesPerView: 2,
+                slidesPerView: 1.5,
+                spaceBetween: 20,
               },
               1024: {
-                slidesPerView: 3,
+                slidesPerView: 2.5,
+                spaceBetween: 30,
               },
             }}
-            className="w-full py-12"
+            touchRatio={0.8}
+            resistanceRatio={0.85}
+            className="w-full py-8"
           >
             {gallery.images.map((image) => (
               <SwiperSlide key={image.id} className="w-[300px] sm:w-[400px]">

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { BookOpen, Users, Star, Award, Palette, Music } from 'lucide-react';
 import { useSiteContent } from '@/contexts/SiteContext';
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BookOpen, Users, Star, Award, Palette, Music
 };
 

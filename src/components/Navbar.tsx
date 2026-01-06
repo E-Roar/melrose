@@ -131,17 +131,19 @@ export const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 pt-24 bg-background/95 backdrop-blur-xl lg:hidden"
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed inset-0 z-40 pt-20 bg-background/98 backdrop-blur-xl lg:hidden"
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            <div className="container mx-auto px-4 flex flex-col gap-4">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-2 h-full overflow-y-auto">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.href}
                   initial={{ opacity: 0, x: direction === 'rtl' ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ type: 'spring', delay: index * 0.05 }}
                   onClick={() => scrollToSection(item.href)}
-                  className="p-4 rounded-2xl shadow-neo text-lg font-semibold text-foreground hover:shadow-neo-lg transition-all font-quicksand rtl:font-tajawal"
+                  className="p-4 min-h-[44px] rounded-2xl shadow-neo text-lg font-semibold text-foreground hover:shadow-neo-lg active:scale-95 transition-all font-quicksand rtl:font-tajawal touch-manipulation"
                 >
                   {item.label}
                 </motion.button>
@@ -151,7 +153,7 @@ export const Navbar = () => {
                 <Button
                   variant="neo"
                   size="lg"
-                  className="w-full mt-4 flex items-center gap-2"
+                  className="w-full mt-4 flex items-center gap-2 min-h-[44px] touch-manipulation"
                 >
                   <Lock size={18} />
                   {t.nav.admin}
