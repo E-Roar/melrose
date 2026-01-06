@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Navigation as NavIcon, Phone, Mail } from 'lucide-react';
+import { X, Send, Sparkles, Navigation as NavIcon, Phone, Mail, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useSiteContent } from '@/contexts/SiteContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MCPClient } from '@/lib/mcp-client';
+import { useTextToSpeech } from '@/hooks/use-tts';
 import chatbotAvatar from '@/assets/chatbot-avatar.png';
 
 interface Message {
@@ -29,8 +30,18 @@ export const Chatbot = () => {
   const { language } = useLanguage();
   const { chatbot } = content;
 
+  // TTS Hook
+  const { speak, cancel: cancelSpeech, toggleMute, isMuted, supported: ttsSupported } = useTextToSpeech({ language });
+
   // Initialize MCP client for navigation tools
   const mcpClient = new MCPClient(language, content);
+
+  // Stop speech when closing chat
+  useEffect(() => {
+    if (!isOpen) {
+      cancelSpeech();
+    }
+  }, [isOpen, cancelSpeech]);
 
   // Load messages from persistent session (shared across tabs)
   useEffect(() => {
@@ -80,6 +91,7 @@ export const Chatbot = () => {
     const userMessage = input.trim();
     setInput('');
     setApiError(null);
+    cancelSpeech(); // Stop any current speech
 
     // Clear any existing debounce
     if (debounceTimer) {
@@ -106,15 +118,22 @@ export const Chatbot = () => {
       const response = await mcpClient.chat(userMessage, history);
 
       // Add bot response
+      const botResponseContent = response.content || '';
       setMessages(prev => [
         ...prev,
         {
           role: 'bot',
-          content: response.content || '',
+          content: botResponseContent,
           toolCall: response.toolCall,
           toolResult: response.toolResult,
         },
       ]);
+
+      // Trigger TTS if content exists
+      if (botResponseContent) {
+        speak(botResponseContent);
+      }
+
     } catch (error: any) {
       console.error('Chatbot error:', error);
 
@@ -152,6 +171,9 @@ export const Chatbot = () => {
         role: 'bot',
         content: errorMessage,
       }]);
+
+      // Speak error message too
+      speak(errorMessage);
 
       if (isError) {
         setApiError(errorMessage);
@@ -238,6 +260,20 @@ export const Chatbot = () => {
                     {language === 'fr' ? 'En ligne' : 'متصل'}
                   </p>
                 </div>
+
+                {/* TTS Toggle */}
+                {ttsSupported && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggleMute}
+                    className="text-white hover:bg-white/20 mr-1"
+                    title={isMuted ? "Activer le son" : "Désactiver le son"}
+                  >
+                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                  </Button>
+                )}
+
                 <Button
                   variant="ghost"
                   size="icon"
