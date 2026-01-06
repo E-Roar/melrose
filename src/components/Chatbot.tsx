@@ -30,8 +30,8 @@ export const Chatbot = () => {
   const { language } = useLanguage();
   const { chatbot } = content;
 
-  // TTS Hook
   const { speak, cancel: cancelSpeech, toggleMute, isMuted, supported: ttsSupported } = useTextToSpeech({ language });
+  const hasSpokenWelcome = useRef(false);
 
   // Initialize MCP client for navigation tools
   const mcpClient = new MCPClient(language, content);
@@ -40,8 +40,15 @@ export const Chatbot = () => {
   useEffect(() => {
     if (!isOpen) {
       cancelSpeech();
+    } else if (!hasSpokenWelcome.current) {
+      // Speak welcome message on first open
+      // We use a small timeout to ensure the voice is ready and it feels natural
+      setTimeout(() => {
+        speak(chatbot.greeting);
+      }, 500);
+      hasSpokenWelcome.current = true;
     }
-  }, [isOpen, cancelSpeech]);
+  }, [isOpen, cancelSpeech, speak, chatbot.greeting]);
 
   // Load messages from persistent session (shared across tabs)
   useEffect(() => {
