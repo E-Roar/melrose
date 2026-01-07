@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +12,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const AdminLogin = () => {
     const { login, error, isLoading } = useAuth();
     const { t, language, toggleLanguage } = useLanguage();
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,7 +20,7 @@ const AdminLogin = () => {
         e.preventDefault();
         const success = await login(email, password);
         if (success) {
-            window.location.href = '/admin';
+            navigate('/admin');
         }
     };
 

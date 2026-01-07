@@ -94,6 +94,8 @@ export const useAuth = () => {
     return context;
 };
 
+import { Navigate } from 'react-router-dom';
+
 // Protected Route component
 export const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { isAuthenticated, isLoading } = useAuth();
@@ -110,9 +112,8 @@ export const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) 
     }
 
     if (!isAuthenticated) {
-        // Redirect to login
-        window.location.href = '/admin/login';
-        return null;
+        // Redirect to login using Navigate component
+        return <Navigate to="/admin/login" replace />;
     }
 
     return <>{children}</>;
